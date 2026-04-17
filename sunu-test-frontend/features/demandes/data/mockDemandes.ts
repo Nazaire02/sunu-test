@@ -16,7 +16,7 @@ export interface Demande {
   contratId: string;
   type: DemandeType;
   statut: DemandeStatut;
-  delaiLimite: string; // ISO date YYYY-MM-DD
+  delaiLimite: string; 
   reassureur: string | null;
   montant: number;
   devise: string;
