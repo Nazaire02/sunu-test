@@ -28,7 +28,7 @@ export const mockDemandes: Demande[] = [
     contratId: "CTR-2025-00847",
     type: "COTATION",
     statut: "EN_ATTENTE",
-    delaiLimite: "2025-06-03",
+    delaiLimite: "2026-06-03",
     reassureur: null,
     montant: 350000000,
     devise: "FCFA",
