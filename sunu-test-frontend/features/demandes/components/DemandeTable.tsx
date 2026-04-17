@@ -11,29 +11,19 @@ import { formatMontant } from "@/lib/demandes";
 import { StatutBadge } from "./StatutBadge";
 import { DelaiCell } from "./DetailCell";
 import Link from "next/link";
+import { Button } from "@/shared/components/ui/button";
+import { GitBranch } from "lucide-react";
 
 interface DemandeTableProps {
     demandes: Demande[];
     type: DemandeType;
 }
 
-const ACCENT: Record<DemandeType, { border: string; mobileBorder: string }> = {
-    COTATION: {
-        border: "border-l-4 border-l-blue-500",
-        mobileBorder: "border-l-4 border-l-blue-500",
-    },
-    PLACEMENT: {
-        border: "border-l-4 border-l-purple-500",
-        mobileBorder: "border-l-4 border-l-purple-500",
-    },
-};
-
 export function DemandeTable({ demandes, type }: DemandeTableProps) {
-    const accent = ACCENT[type];
+    const isCotation = type === "COTATION";
 
     return (
         <>
-            {/* Desktop table */}
             <div className="hidden md:block">
                 <Table>
                     <TableHeader>
@@ -45,8 +35,10 @@ export function DemandeTable({ demandes, type }: DemandeTableProps) {
                             <TableHead>Réassureur</TableHead>
                             <TableHead className="text-right">Montant</TableHead>
                             <TableHead>Délai limite</TableHead>
+                            {isCotation && <TableHead className="text-right">Action</TableHead>}
                         </TableRow>
                     </TableHeader>
+
                     <TableBody>
                         {demandes.map((d) => (
                             <TableRow key={d.id}>
@@ -58,13 +50,17 @@ export function DemandeTable({ demandes, type }: DemandeTableProps) {
                                         {d.id}
                                     </Link>
                                 </TableCell>
+
                                 <TableCell className="font-mono text-sm">{d.contratId}</TableCell>
+
                                 <TableCell>
                                     <StatutBadge statut={d.type} />
                                 </TableCell>
+
                                 <TableCell>
                                     <StatutBadge statut={d.statut} />
                                 </TableCell>
+
                                 <TableCell>
                                     {d.reassureur ? (
                                         <span>{d.reassureur}</span>
@@ -72,33 +68,52 @@ export function DemandeTable({ demandes, type }: DemandeTableProps) {
                                         <span className="italic text-muted-foreground">Non assigné</span>
                                     )}
                                 </TableCell>
+
                                 <TableCell className="text-right font-medium tabular-nums">
                                     {formatMontant(d.montant, d.devise)}
                                 </TableCell>
+
                                 <TableCell>
                                     <DelaiCell dateStr={d.delaiLimite} />
                                 </TableCell>
+
+                                {isCotation && (
+                                    <TableCell className="text-right">
+                                        <Button asChild size="sm" variant="outline">
+                                            <Link href={`/workflow/${d.id}`}>
+                                                <GitBranch className="mr-1 h-4 w-4" />
+                                                Gérer
+                                            </Link>
+                                        </Button>
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </div>
 
-            {/* Mobile cards */}
             <div className="space-y-3 md:hidden">
                 {demandes.map((d) => (
-                    <Link
+                    <div
                         key={d.id}
-                        href="/demandes/{d.id}"
-                        className={`block rounded-lg border bg-card p-4 shadow-sm ${accent.mobileBorder}`}
+                        className="block rounded-lg border bg-card p-4 shadow-sm"
                     >
                         <div className="flex items-start justify-between gap-2">
                             <div>
-                                <div className="font-semibold text-primary">{d.id}</div>
-                                <div className="font-mono text-xs text-muted-foreground">{d.contratId}</div>
+                                <Link
+                                    href={`/demandes/${d.id}`}
+                                    className="font-semibold text-primary"
+                                >
+                                    {d.id}
+                                </Link>
+                                <div className="font-mono text-xs text-muted-foreground">
+                                    {d.contratId}
+                                </div>
                             </div>
                             <StatutBadge statut={d.statut} />
                         </div>
+
                         <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
                             <div>
                                 <div className="text-xs text-muted-foreground">Réassureur</div>
@@ -108,6 +123,7 @@ export function DemandeTable({ demandes, type }: DemandeTableProps) {
                                     )}
                                 </div>
                             </div>
+
                             <div className="text-right">
                                 <div className="text-xs text-muted-foreground">Montant</div>
                                 <div className="font-medium tabular-nums">
@@ -115,11 +131,23 @@ export function DemandeTable({ demandes, type }: DemandeTableProps) {
                                 </div>
                             </div>
                         </div>
+
                         <div className="mt-3 border-t pt-3">
                             <div className="mb-1 text-xs text-muted-foreground">Délai limite</div>
                             <DelaiCell dateStr={d.delaiLimite} />
                         </div>
-                    </Link>
+
+                        {type === "COTATION" && (
+                            <div className="mt-3 flex justify-end">
+                                <Button asChild size="sm" variant="outline">
+                                    <Link href={`/workflow/${d.id}`}>
+                                        <GitBranch className="mr-1 h-4 w-4" />
+                                        Gérer le workflow
+                                    </Link>
+                                </Button>
+                            </div>
+                        )}
+                    </div>
                 ))}
             </div>
         </>

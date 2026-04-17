@@ -9,7 +9,7 @@ export default function WorkflowIndex() {
   const cotations = mockDemandes.filter((d) => d.type === "COTATION");
 
   return (
-    <div className="py-8">
+    <div>
       <div className="mb-6 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-700">
           <Workflow className="h-5 w-5" />
