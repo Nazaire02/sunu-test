@@ -1,28 +1,18 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
-import { formatDelai, formatMontant } from "@/lib/demandes";
 import { mockDemandes } from "@/features/demandes/data/mockDemandes";
 import { StatutBadge } from "@/features/demandes/components/StatutBadge";
 import { DelaiCell } from "@/features/demandes/components/DetailCell";
+import { Field } from "../components/Field";
+import { formatMontant } from "@/lib/demandes";
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="border-b py-3 last:border-b-0">
-      <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className="mt-1 text-sm text-foreground">{children}</div>
-    </div>
-  );
-}
-
-export default function DemandeDetailPage() {
+export default function DemandeDetailView() {
   const params = useParams();
-  const router = useRouter();
 
   const d = mockDemandes.find((x) => x.id === params.id);
 
@@ -43,14 +33,9 @@ export default function DemandeDetailPage() {
   const accent = d.type === "COTATION" ? "blue" : "purple";
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="border-b bg-card">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <Button variant="ghost" size="sm" className="mb-3 -ml-2" onClick={() => router.back()}>
-            <ArrowLeft className="mr-1 h-4 w-4" />
-            Retour
-          </Button>
-
+    <div className="space-y-6">
+      <div className="bg-card">
+        <div>
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-wider text-muted-foreground">
@@ -73,7 +58,7 @@ export default function DemandeDetailPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+      <div>
         <Card
           className={
             accent === "blue"
@@ -113,9 +98,6 @@ export default function DemandeDetailPage() {
             <Field label="Délai limite">
               <div className="flex flex-col gap-1">
                 <DelaiCell dateStr={d.delaiLimite} />
-                <span className="text-xs text-muted-foreground">
-                  {formatDelai(d.delaiLimite)}
-                </span>
               </div>
             </Field>
           </CardContent>

@@ -14,7 +14,6 @@ export function useMenuItems(): MenuGroup[] {
       groupTitle: "Principal",
       items: [
         { title: "Demandes", url: "/", icon: LayoutDashboard },
-        { title: "Workflow", url: "/workflow", icon: GitBranch },
       ],
     }
 
