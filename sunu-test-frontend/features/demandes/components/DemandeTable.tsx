@@ -49,7 +49,7 @@ export function DemandeTable({ demandes, type }: DemandeTableProps) {
                     </TableHeader>
                     <TableBody>
                         {demandes.map((d) => (
-                            <TableRow key={d.id} className={accent.border}>
+                            <TableRow key={d.id}>
                                 <TableCell>
                                     <Link
                                         href={`/demandes/${d.id}`}
