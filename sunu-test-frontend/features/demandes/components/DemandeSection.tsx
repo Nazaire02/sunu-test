@@ -43,15 +43,6 @@ export default function DemandeSection({ type, demandes }: SectionProps) {
           <Badge variant="secondary" className="font-normal">
             Total : <span className="ml-1 font-semibold">{total}</span>
           </Badge>
-          {enRetard > 0 ? (
-            <Badge className="bg-red-100 text-red-800 hover:bg-red-100 border-red-200 font-normal" variant="outline">
-              En retard : <span className="ml-1 font-semibold">{enRetard}</span>
-            </Badge>
-          ) : (
-            <Badge variant="outline" className="font-normal text-muted-foreground">
-              En retard : <span className="ml-1 font-semibold">0</span>
-            </Badge>
-          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
