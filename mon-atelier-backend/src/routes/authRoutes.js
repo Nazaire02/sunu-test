@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import * as controller from '../controllers/authController.js';
+import * as schema from '../validators/auth.js';
+import { validate } from '../middlewares/validate.js';
+import { rateLimit } from '../middlewares/rateLimit.js';
+const router = Router();
+router.use((req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
+router.post('/request-code', rateLimit('sms-ip', 10, 600), validate(schema.requestCode), controller.requestCode);
+router.post('/verify-code', rateLimit('verify-ip', 30, 600), validate(schema.verifyCode), controller.verifyCode);
+router.post('/refresh', rateLimit('refresh-ip', 120, 600), validate(schema.refresh), controller.refresh);
+router.post('/logout', validate(schema.refresh), controller.logout);
+export default router;

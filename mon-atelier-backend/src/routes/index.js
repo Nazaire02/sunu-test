@@ -1,0 +1,16 @@
+import { Router } from 'express';
+import { auth } from '../middlewares/auth.js';
+import authRoutes from './authRoutes.js';
+import workshopRoutes from './workshopRoutes.js';
+import clientRoutes from './clientRoutes.js';
+import orderRoutes from './orderRoutes.js';
+import mediaRoutes from './mediaRoutes.js';
+const router = Router();
+router.use('/auth', authRoutes);
+router.use('/media', mediaRoutes);
+router.use(auth);
+router.use((req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
+router.use('/workshop', workshopRoutes);
+router.use('/clients', clientRoutes);
+router.use('/orders', orderRoutes);
+export default router;

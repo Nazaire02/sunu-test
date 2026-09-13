@@ -1,0 +1,11 @@
+import mongoose from 'mongoose';
+import { identifier, options } from './options.js';
+const piece = new mongoose.Schema({ id: String, garment: String, measurements: { type: Map, of: String } }, { _id: false, strict: 'throw' });
+const payment = new mongoose.Schema({ id: String, requestId: String, requestHash: String, amount: { type: Number, min: 1, required: true }, date: Date, method: { type: String, enum: ['Espèces', 'Mobile Money'] } }, { _id: false, strict: 'throw' });
+const schema = new mongoose.Schema({ _id: identifier, ownerId: { type: String, required: true, ref: 'User' }, clientId: { type: String, required: true, ref: 'Client' }, number: { type: String, required: true }, gender: { type: String, enum: ['Homme', 'Femme'], required: true }, pieces: { type: [piece], required: true }, description: { type: String, default: '' }, photos: { type: [String], default: [] }, total: { type: Number, min: 1, required: true }, paidAmount: { type: Number, min: 0, default: 0 }, payments: { type: [payment], default: [] }, durationDays: { type: Number, min: 1, max: 365, required: true }, dueDate: { type: Date, required: true }, status: { type: String, enum: ['En cours', 'Prête', 'Livrée'], default: 'En cours' }, requestId: { type: String, required: true }, requestHash: { type: String, required: true } }, options);
+schema.index({ ownerId: 1, number: 1 }, { unique: true });
+schema.index({ ownerId: 1, requestId: 1 }, { unique: true });
+schema.index({ ownerId: 1, status: 1, dueDate: -1 });
+schema.index({ ownerId: 1, createdAt: -1, _id: -1 });
+schema.index({ ownerId: 1, clientId: 1 });
+export default mongoose.model('Order', schema);

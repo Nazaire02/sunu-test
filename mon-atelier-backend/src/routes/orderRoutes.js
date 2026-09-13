@@ -1,0 +1,16 @@
+import { Router } from 'express';
+import * as controller from '../controllers/orderController.js';
+import * as schema from '../validators/order.js';
+import { validate } from '../middlewares/validate.js';
+import { params } from '../validators/common.js';
+const router = Router();
+router.get('/', validate(schema.orderQuery, 'query'), controller.list);
+router.post('/', validate(schema.order), controller.create);
+router.get('/estimate', validate(schema.estimate, 'query'), controller.estimate);
+router.get('/draft', controller.getDraft);
+router.put('/draft', validate(schema.draft), controller.saveDraft);
+router.delete('/draft', controller.deleteDraft);
+router.get('/:id', validate(params, 'params'), controller.get);
+router.post('/:id/payments', validate(params, 'params'), validate(schema.payment), controller.payment);
+router.patch('/:id/status', validate(params, 'params'), validate(schema.status), controller.status);
+export default router;

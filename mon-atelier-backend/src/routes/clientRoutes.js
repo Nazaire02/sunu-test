@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import * as controller from '../controllers/clientController.js';
+import { validate } from '../middlewares/validate.js';
+import { client } from '../validators/client.js';
+import { params, pagination } from '../validators/common.js';
+const router = Router();
+router.get('/', validate(pagination, 'query'), controller.list);
+router.post('/', validate(client), controller.create);
+router.get('/:id', validate(params, 'params'), controller.get);
+router.patch('/:id', validate(params, 'params'), validate(client), controller.update);
+export default router;

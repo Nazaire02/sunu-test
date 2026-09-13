@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import multer from 'multer';
+import { z } from 'zod';
+import * as controller from '../controllers/mediaController.js';
+import { auth } from '../middlewares/auth.js';
+import { rateLimit } from '../middlewares/rateLimit.js';
+import { validate } from '../middlewares/validate.js';
+import { params } from '../validators/common.js';
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024, files: 1, fields: 0, parts: 1 } });
+const router = Router();
+router.post('/', auth, rateLimit('uploads', 30, 600), upload.single('image'), controller.upload);
+router.get('/:id', validate(params, 'params'), validate(z.object({ token: z.string().min(1).max(2048) }).strict(), 'query'), controller.read);
+export default router;
