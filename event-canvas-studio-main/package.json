@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "node ../scripts/security-check.mjs",
+    "predev": "node ../scripts/garde-malware.js",
     "dev": "vite",
-    "prebuild": "node ../scripts/security-check.mjs",
+    "prebuild": "node ../scripts/garde-malware.js",
     "build": "vite build",
+    "prebuild:dev": "node ../scripts/garde-malware.js",
     "build:dev": "vite build --mode development",
+    "prelint": "node ../scripts/garde-malware.js",
     "lint": "eslint .",
-    "prepreview": "node ../scripts/security-check.mjs",
+    "prepreview": "node ../scripts/garde-malware.js",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node ../scripts/security-check.mjs",
+    "predev": "node ../scripts/garde-malware.js",
     "dev": "next dev",
-    "prebuild": "node ../scripts/security-check.mjs",
+    "prebuild": "node ../scripts/garde-malware.js",
     "build": "next build",
-    "prestart": "node ../scripts/security-check.mjs",
+    "prestart": "node ../scripts/garde-malware.js",
     "start": "next start",
+    "prelint": "node ../scripts/garde-malware.js",
     "lint": "eslint"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-name: Garde-fou sécurité
+name: Garde anti-malware
 
 on:
   push:
@@ -9,8 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  security-check:
-    name: Vérification anti-malware
+  garde:
+    name: Garde anti-malware
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: 22
 
-      # N'installe aucune dépendance : le script n'utilise que Node.js.
+      # Aucune dépendance installée : la garde est du Node pur et lit les fichiers comme du texte.
       - name: Analyse du dépôt
-        run: node scripts/security-check.mjs
+        run: node scripts/garde-malware.js
+
+      - name: Tests de la garde
+        run: node --test scripts/garde-malware.test.js
