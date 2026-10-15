@@ -1,0 +1,27 @@
+name: Garde-fou sécurité
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  security-check:
+    name: Vérification anti-malware
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # N'installe aucune dépendance : le script n'utilise que Node.js.
+      - name: Analyse du dépôt
+        run: node scripts/security-check.mjs

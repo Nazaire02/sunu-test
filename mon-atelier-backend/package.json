@@ -4,7 +4,9 @@
   "description": "API Les Tailleurs",
   "main": "src/index.js",
   "scripts": {
+    "prestart": "node ../scripts/security-check.mjs",
     "start": "node --env-file-if-exists=.env src/index.js",
+    "predev": "node ../scripts/security-check.mjs",
     "dev": "node --watch --env-file-if-exists=.env src/index.js",
     "test": "node --test --test-concurrency=1",
     "check": "node scripts/check.js",

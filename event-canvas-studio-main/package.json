@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node ../scripts/security-check.mjs",
     "dev": "vite",
+    "prebuild": "node ../scripts/security-check.mjs",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "prepreview": "node ../scripts/security-check.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
